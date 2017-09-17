@@ -4,6 +4,10 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
+  def show
+    @post = Post.find_by(id: params[:id])
+  end
+
   def new
     @post = Post.new
   end
@@ -18,11 +22,17 @@ class PostsController < ApplicationController
     end
   end
 
-  def show
-    @post = Post.find_by(id: params[:id])
+  def update
+  @article = Article.find(params[:id])
+
+    if @article.update(article_params)
+      redirect_to @article
+    else
+      render 'edit'
+    end
   end
 
-  private
+private
 
   def post_params
     params.require(:post).permit(:title, :text)
